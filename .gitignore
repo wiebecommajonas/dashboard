@@ -1,8 +1,10 @@
 .DS_Store
+.env
+
 node_modules
 package-lock.json
-/dist
 
+dist
 
 # local env files
 .env.local
@@ -22,3 +24,7 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+# Prisma
+server/prisma/migrations
+server/prisma/*.db*

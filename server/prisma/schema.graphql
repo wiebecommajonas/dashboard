@@ -1,0 +1,24 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id         String  @id @default(uuid())
+  name       String
+  email      String  @unique
+  password   String
+  settings   Setting @relation(fields: [settingsId], references: [id])
+  settingsId String
+}
+
+model Setting {
+  id    String @id @default(uuid())
+  city  String
+  units String
+  User  User[]
+}
