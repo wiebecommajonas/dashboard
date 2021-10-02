@@ -5,6 +5,12 @@ module.exports = {
     node: true,
   },
 
+  plugins: [
+    "vue"
+  ],
+
+  parser: "vue-eslint-parser",
+
   parserOptions: {
     parser: "@typescript-eslint/parser",
   },
@@ -15,7 +21,7 @@ module.exports = {
   },
 
   extends: [
-    "plugin:vue/vue3-essential",
+    "plugin:vue/vue3-recommended",
     "eslint:recommended",
     "@vue/prettier",
     "@vue/typescript",

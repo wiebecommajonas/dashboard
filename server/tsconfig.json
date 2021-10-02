@@ -3,20 +3,23 @@
         "target": "esnext",
         "module": "commonjs",
         "strict": true,
-        "jsx": "preserve",
         "importHelpers": true,
         "moduleResolution": "node",
         "experimentalDecorators": true,
-        "skipLibCheck": true,
+        "emitDecoratorMetadata": true,
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
         "sourceMap": true,
         "baseUrl": ".",
+        "lib": [
+            "es2018",
+            "esnext.asynciterable"
+        ],
         "types": [
             "node",
         ],
     },
     "exclude": [
         "node_modules"
-    ]
+    ],
 }

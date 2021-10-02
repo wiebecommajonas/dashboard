@@ -1,19 +1,21 @@
 import { ApolloServer } from 'apollo-server';
-import { PrismaClient } from '@prisma/client';
-import fs from 'fs';
-import path from 'path';
-import Mutation from './resolvers/Mutation';
-import { getUserId } from './utils/auth';
+/* import fs from 'fs';
+import path from 'path'; */
+import { buildSchema } from 'type-graphql';
+import SettingsResolver from './resolvers/SettingsResolver';
+import InfoResolver from './resolvers/InfoResolver';
+import UserResolver from './resolvers/UserResolver';
+import { getUserId } from './utils/auth/auth';
+import { PrismaClient } from '.prisma/client';
+import { authChecker } from './utils/auth/AuthChecker';
 
 const prisma = new PrismaClient();
 
-const resolvers = {
-  Mutation,
-};
-
-const server = new ApolloServer({
-  typeDefs: fs.readFileSync(path.join(__dirname, 'schema/schema.graphql'), 'utf-8'),
-  resolvers,
+buildSchema({
+  resolvers: [InfoResolver, UserResolver, SettingsResolver],
+  authChecker,
+}).then((schema) => new ApolloServer({
+  schema,
   context: ({ req }) => ({
     ...req,
     prisma,
@@ -21,8 +23,7 @@ const server = new ApolloServer({
       ? getUserId(req)
       : null,
   }),
-});
-
-server
-  .listen(5000)
-  .then(({ url }) => console.log(`Server is running on ${url}`));
+}))
+  .then((server) => server.listen(5000))
+  .then(({ url }) => console.log(`Server is running on ${url}`))
+  .catch((error) => console.error(error));

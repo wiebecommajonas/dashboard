@@ -7,9 +7,15 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator typegraphql {
+  provider = "typegraphql-prisma"
+  output   = "../generated/typegraphql-prisma"
+}
+
 model User {
   id         String  @id @default(uuid())
-  name       String
+  firstname  String
+  lastname   String
   email      String  @unique
   password   String
   settings   Setting @relation(fields: [settingsId], references: [id])
@@ -17,8 +23,8 @@ model User {
 }
 
 model Setting {
-  id    String @id @default(uuid())
+  id    String @unique @default(uuid())
   city  String
   units String
-  User  User[]
+  user  User?
 }
